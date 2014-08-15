@@ -42,6 +42,7 @@ public class Updater {
     private static final String USER_AGENT = "Updater (by Gravity)";
     private static final String delimiter = "^v|[\\s_-]v"; // Used for locating version numbers in file names
     private static final String[] NO_UPDATE_TAG = { "-DEV", "-PRE", "-SNAPSHOT" }; // If the version number contains one of these, don't update.
+    public static final String[] AUTO_UPDATE_TAG = { "-CRITICAL" };
     private static final int BYTE_SIZE = 1024; // Used for downloading files
     private final YamlConfiguration config = new YamlConfiguration(); // Config file
     private String updateFolder;// The folder that downloads will be placed in
@@ -484,7 +485,7 @@ public class Updater {
             conn.addRequestProperty("User-Agent", Updater.USER_AGENT);
 
             conn.setDoOutput(true);
-
+            
             final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             final String response = reader.readLine();
 

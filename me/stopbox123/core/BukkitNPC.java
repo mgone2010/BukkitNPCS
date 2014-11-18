@@ -6,6 +6,7 @@ import java.io.IOException;
 import me.stopbox123.core.command.CommandHandler;
 import me.stopbox123.core.command.CreateCommand;
 import me.stopbox123.core.command.SelectCommand;
+import me.stopbox123.core.mcstats.Metrics;
 import me.stopbox123.nms.util.ReflectionUtil;
 
 import org.bukkit.Location;
@@ -21,6 +22,7 @@ public class BukkitNPC extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		core = this;
+		getConfig().options().copyDefaults(true);
 		saveDefaultConfig();
 		saveConfig();
 		
@@ -54,6 +56,20 @@ public class BukkitNPC extends JavaPlugin {
 			}
 		}
 		
+		if (getConfig().getBoolean("opt-out") == false) {
+			Metrics metrics = null;
+			try {
+				metrics = new Metrics(this);
+			} catch (IOException e1) {
+				//Failed to init metrics
+			}
+		
+			try {
+				metrics.start();
+			} catch (Exception e) {
+				// Failed to submit metrics ;-(
+			}
+		}
 	}
 
 	@Override

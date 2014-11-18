@@ -17,7 +17,7 @@ public class SelectCommand implements CommandInterface {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		Player p = (Player)sender;
 		
-		Entity ent = getTarget(p, ReflectionUtil.v1_7_4_NPC);
+		NPCEntity ent = getTarget(p, ReflectionUtil.v1_7_4_NPC);
 		
 		if (ent != null) {
 			p.sendMessage("Selected npc " + ent.displayName);
@@ -26,14 +26,14 @@ public class SelectCommand implements CommandInterface {
 		return false;
 	}
 	
-	 private static <T extends Entity> Entity getTarget(Entity entity, ArrayDeque<Entity> list) {
-		 T target = null;
+	 private static <T extends Entity> NPCEntity getTarget(Entity entity, ArrayDeque<NPCEntity> npcs) {
+		 NPCEntity target = null;
 		 double threshold = 1;
 		 
-		 for (T other : list) {
-			 Vector n = other.getLocation().toVector().subtract(entity.getLocation().toVector());
+		 for (NPCEntity other : npcs) {
+			 Vector n = other.getBukkitEntity().getLocation().toVector().subtract(entity.getLocation().toVector());
 			 if (entity.getLocation().getDirection().normalize().crossProduct(n).lengthSquared() < threshold && n.normalize().dot(entity.getLocation().getDirection().normalize()) >= 0) {
-		 if (target == null || target.getLocation().distanceSquared(entity.getLocation()) > other.getLocation().distanceSquared(entity.getLocation()))
+		 if (target == null || target.getBukkitEntity().getLocation().distanceSquared(entity.getLocation()) > other.getBukkitEntity().getLocation().distanceSquared(entity.getLocation()))
 			 target = other;
 		 }
 			 }

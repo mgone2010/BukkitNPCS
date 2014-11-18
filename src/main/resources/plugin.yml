@@ -1,5 +1,0 @@
-name: BukkitNPC
-version: 0.1
-main: me.stopbox123.npc.Main
-commands:
-  npc:
